@@ -1,0 +1,7 @@
+﻿[
+  {
+    "id": "Compartment",
+    "data": "{\"version\":{\"Major\":0,\"Minor\":3},\"name\":\"Hull\",\"ID\":0,\"parentID\":-1,\"flags\":3,\"displacement\":1.0,\"armourVolume\":1.0,\"pos\":[0.0,0.0,0.0],\"rot\":[0.0,0.0,0.0],\"turret\":null,\"genID\":null,\"genData\":null,\"compartment\":{\"version\":{\"Major\":0,\"Minor\":1},\"points\":[ *points* ],\"sharedPoints\":[ *sPoints* ],\"thicknessMap\":[ *tMap* ],\"faceMap\":[ *fMap* ],\"smooth\":0.0}}",
+    "metaData": ""
+  },
+]
