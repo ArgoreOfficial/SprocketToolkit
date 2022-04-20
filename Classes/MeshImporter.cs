@@ -45,43 +45,84 @@ namespace SprocketToolkit
 
 
             // Faces
-            StringBuilder fSB = new StringBuilder();
-            StringBuilder pSB = new StringBuilder();
+            StringBuilder fSB = new StringBuilder(); // faces
+            StringBuilder pSB = new StringBuilder(); // points
             int fErrors = 0;
             int points = 0;
+
+            // problem is that with vertices [0,1,2,3,4], faces don't always go in order
+            // so f[0,1,4],[2,3,4] might be a thing
+            // that doesn't work when creating 3 new points per face
 
             for (int i = 0; i < loaded.facesVertsIndxs.Count; i++)
             {
                 if(loaded.facesVertsIndxs[i].Count == 3)
                 {
+                    /*
                     pSB.Append("," +
-                          PtoString(loaded.vertices[loaded.facesVertsIndxs[i][0] - 1]) +
-                          PtoString(loaded.vertices[loaded.facesVertsIndxs[i][1] - 1]) +
+                          PtoString(loaded.vertices[loaded.facesVertsIndxs[i][0] - 1]) + "," +
+                          PtoString(loaded.vertices[loaded.facesVertsIndxs[i][1] - 1]) + "," +
                           PtoString(loaded.vertices[loaded.facesVertsIndxs[i][2] - 1])
-                        );
-                    fSB.Append("," + JsonSerializer.Serialize(loaded.facesVertsIndxs[i]));
+                        );*/
+
+                    pSB.Append("," + PtoString(loaded.vertices[loaded.facesVertsIndxs[i].Min() - 1]));
+
+                    for (int o = 0; o < loaded.facesVertsIndxs[i].Count; o++)
+                    {
+                        if (
+                           loaded.facesVertsIndxs[i][o] !=
+                           loaded.facesVertsIndxs[i].Min() &&
+                           loaded.facesVertsIndxs[i][o] !=
+                           loaded.facesVertsIndxs[i].Max()) 
+                        {
+                            pSB.Append("," + PtoString(loaded.vertices[loaded.facesVertsIndxs[i][o] - 1]));
+                        }
+                    }
+
+                    pSB.Append("," + PtoString(loaded.vertices[loaded.facesVertsIndxs[i].Max() - 1]));
+
+
+                    //fSB.Append("," + JsonSerializer.Serialize(loaded.facesVertsIndxs[i]));
+                    fSB.Append(",["
+                        + (loaded.facesVertsIndxs[i][0] - 1) + ","
+                        + (loaded.facesVertsIndxs[i][1] - 1) + ","
+                        + (loaded.facesVertsIndxs[i][2] - 1) 
+                        + "]");
+
+
                     points += 3;
-                }
+                }/*
                 else if(loaded.facesVertsIndxs[i].Count == 4)
                 {
                     pSB.Append("," +
-                          PtoString(loaded.vertices[loaded.facesVertsIndxs[i][0] - 1]) +
-                          PtoString(loaded.vertices[loaded.facesVertsIndxs[i][1] - 1]) +
-                          PtoString(loaded.vertices[loaded.facesVertsIndxs[i][2] - 1]) +
+                          PtoString(loaded.vertices[loaded.facesVertsIndxs[i][0] - 1]) + "," +
+                          PtoString(loaded.vertices[loaded.facesVertsIndxs[i][1] - 1]) + "," +
+                          PtoString(loaded.vertices[loaded.facesVertsIndxs[i][2] - 1]) + "," +
                           PtoString(loaded.vertices[loaded.facesVertsIndxs[i][3] - 1])
                         );
 
                     // idk why it has to be this way
+
+                    //  4/3/1 3/4/1
+                    //  3/2/0 2/3/0
+                    //   [0,1,3,2]
+                    //      to
+                    //  0 3 2 0 1 3 
+                    // [0,2,3,0,1,2
+                    // test 0,1,2,0,1,3,0,2,3
                     fSB.Append(",[" 
-                        + (loaded.facesVertsIndxs[i][3]-1) + ","
-                        + (loaded.facesVertsIndxs[i][0]-1) + ","
-                        + (loaded.facesVertsIndxs[i][1]-1) + ","
-                        + (loaded.facesVertsIndxs[i][3]-1) + ","
-                        + (loaded.facesVertsIndxs[i][1]-1) + ","
-                        + (loaded.facesVertsIndxs[i][2]-1)
+                        + (loaded.facesVertsIndxs[i][0] - 1) + ","
+                        + (loaded.facesVertsIndxs[i][1] - 1) + ","
+                        + (loaded.facesVertsIndxs[i][2] - 1) + ","
+                        + (loaded.facesVertsIndxs[i][0] - 1) + ","
+                        + (loaded.facesVertsIndxs[i][1] - 1) + ","
+                        + (loaded.facesVertsIndxs[i][3] - 1) + ","
+                        + (loaded.facesVertsIndxs[i][0] - 1) + ","
+                        + (loaded.facesVertsIndxs[i][2] - 1) + ","
+                        + (loaded.facesVertsIndxs[i][3] - 1)
                         + "]");
                     points += 4;
-                }
+                }*/
                 else
                 {
                     fErrors++;

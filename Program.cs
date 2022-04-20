@@ -14,7 +14,7 @@ namespace SprocketToolkit
         {
             DateTime timer = DateTime.Now;
 
-            MeshImporter.Import(@"C:\Users\argor\Desktop\Models\Sprocket\TestModel2.obj");
+            MeshImporter.Import(@"C:\Users\argor\Desktop\Models\Sprocket\TriCube.obj");
 
             Console.WriteLine((DateTime.Now - timer).TotalSeconds);
             Console.ReadLine();
