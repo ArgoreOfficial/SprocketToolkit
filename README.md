@@ -5,6 +5,8 @@ A collection of tools for the game [Sprocket](https://store.steampowered.com/app
 
 **For exporting, use [SprocketMeshConverter](https://github.com/ArgoreOfficial/SprocketMeshConverter)**
 
+**The only benefit to using this is for quads and possibly faster importing time. Otherwise they are basically identical
+
 **reminder; add tutorial*
 
 ## Features
