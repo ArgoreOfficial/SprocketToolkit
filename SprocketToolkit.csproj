@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Classes\CE.cs" />
     <Compile Include="Classes\MeshImporter.cs" />
+    <Compile Include="Classes\Settings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

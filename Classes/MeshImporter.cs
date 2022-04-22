@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Numerics;
 using SprocketToolkit.Classes;
+using System;
 
 namespace SprocketToolkit
 {
@@ -12,7 +13,7 @@ namespace SprocketToolkit
 
     static class MeshImporter
     {
-        public static void Import(string filePath, string savePath, string saveName)
+        public static bool Import(string filePath, string savePath, string saveName)
         {
             SimpleMesh loaded;
 
@@ -22,6 +23,10 @@ namespace SprocketToolkit
                 loaded = SimpleMesh.LoadFromObj(reader);
             }
 
+            if(loaded.facesVertsIndxs.Count == 0 || loaded.vertices.Count == 0)
+            {
+                return false;
+            }
 
             // Setup
             StringBuilder compSB = new StringBuilder();
@@ -35,7 +40,7 @@ namespace SprocketToolkit
             StringBuilder pSB = new StringBuilder(); // points
             int fErrors = 0;
             int points = 0;
-            List<Vector3> newPoints = new List<Vector3>();
+            List<Vector3> newPoints = new List<Vector3>(); // new list of points
 
             for (int i = 0; i < loaded.facesVertsIndxs.Count; i++)
             {
@@ -44,7 +49,7 @@ namespace SprocketToolkit
                     // Triangles
                     MakeFace(pSB, newPoints, loaded.vertices, loaded.facesVertsIndxs[i], new int[] { 0, 1, 2 });
                     points += 6;
-                    fSB.Append($"[{points - 3},{points - 2},{points - 1}]");
+                    fSB.Append($",[{points - 3},{points - 2},{points - 1}]");
                 }
                 else if (loaded.facesVertsIndxs[i].Count == 4)
                 {
@@ -68,8 +73,14 @@ namespace SprocketToolkit
                 }
             }
 
+            // makes everything into one face
+            if(Settings.Fun.OneFace)
+            {
+                fSB.Replace("[", "").Replace("]", "");
+            }
+            
             compSB.Replace(" *points* ", pSB.ToString().Substring(1));
-            compSB.Replace(" *fMap* ", fSB.ToString().Substring(1));
+            compSB.Replace(" *fMap* ", fSB.ToString().Substring(1 * Convert.ToInt32(!Settings.Fun.OneFace)));
 
 
 
@@ -84,6 +95,7 @@ namespace SprocketToolkit
                 {
                     continue;
                 }
+
                 sp.Append($",[{p1}");
                 for (int p2 = p1+1; p2 < newPoints.Count; p2++)
                 {
@@ -97,7 +109,7 @@ namespace SprocketToolkit
             }
             compSB.Replace(" *sPoints* ", sp.ToString().Substring(1));
             
-
+            
 
 
             // ThicknessMap
@@ -116,8 +128,17 @@ namespace SprocketToolkit
             {
                 Directory.CreateDirectory($"{savePath}/Blueprints/Compartments/");
             }
+            savePath += "/Blueprints/Compartments/";
+
+            // if debug, save in application folder as DEBUG.blueprint
+            if (Settings.Utility.Debug)
+            {
+                savePath = "";
+                saveName = "DEBUG";
+            }
+
             File.WriteAllText(
-                $"{savePath}/Blueprints/Compartments/{saveName}.blueprint",
+                $"{savePath}{saveName}.blueprint",
                 compSB.ToString());
             
 
@@ -125,6 +146,8 @@ namespace SprocketToolkit
             {
                 CE.Alert($"{fErrors} failed faces. Only Triangles and Quads are supported for now\n");
             }
+
+            return true;
         }
 
         /// <summary>
@@ -147,10 +170,18 @@ namespace SprocketToolkit
         /// <param name="IndexOrder">What order to do face indexes in</param>
         static void MakeFace(StringBuilder VertexSB, List<Vector3> NewVerts, List<Vector3> LoadedVerts, List<int> FaceIndex, int[] IndexOrder)
         {
+            
             for (int i = 0; i < IndexOrder.Length; i++)
             {
+                Vector3 newVert = LoadedVerts[FaceIndex[IndexOrder[i]] - 1];
+
+                if(Settings.Fun.Ballify)
+                {
+                    newVert = Vector3.Normalize(newVert); // turns mesh into a ball
+                }
+
                 VertexSB.Append("," + PtoString(LoadedVerts[FaceIndex[IndexOrder[i]] - 1]));
-                NewVerts.Add(LoadedVerts[FaceIndex[IndexOrder[i]] - 1]);
+                NewVerts.Add(newVert);
             }
         }
     }
