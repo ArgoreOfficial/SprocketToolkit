@@ -65,7 +65,7 @@ namespace SprocketToolkit
 
                     timer = DateTime.Now;
                     CE.Write($"[*] Loading {new FileInfo(path).Length} bytes...\n");
-                    MeshImporter.Import(@"C:\Users\argor\Desktop\WEE.obj", faction, new FileInfo(path).Name.Replace(".obj", ""));
+                    MeshImporter.Import(path, faction, new FileInfo(path).Name.Replace(".obj", ""));
                     CE.Write($"[*] Done!\n");
 
                     if (debug)

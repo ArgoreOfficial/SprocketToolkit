@@ -95,7 +95,6 @@ namespace SprocketToolkit
                 }
                 sp.Append("]");
             }
-
             compSB.Replace(" *sPoints* ", sp.ToString().Substring(1));
             
 
@@ -110,18 +109,18 @@ namespace SprocketToolkit
             compSB.Replace(" *tMap* ", tSB.ToString().Substring(1));
 
 
-            //compSB.Replace(" *fMap* ", "");
+
 
             // Final File
             if(!Directory.Exists($"{savePath}/Blueprints/Compartments/"))
             {
                 Directory.CreateDirectory($"{savePath}/Blueprints/Compartments/");
             }
-
             File.WriteAllText(
                 $"{savePath}/Blueprints/Compartments/{saveName}.blueprint",
                 compSB.ToString());
             
+
             if(fErrors > 0)
             {
                 CE.Alert($"{fErrors} failed faces. Only Triangles and Quads are supported for now\n");
