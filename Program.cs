@@ -7,7 +7,6 @@ namespace SprocketToolkit
 {
     class Program
     {
-        static bool debug = true;
         static string version = "0.1 ALPHA";
         static DateTime timer;
 
@@ -50,34 +49,55 @@ namespace SprocketToolkit
 
 
 
-                string path = "";
-                while (path == "")
+                string input = "";
+                while (input == "")
                 {
                     CE.Write("Enter file path: ");
-                    path = OpenFile();
+                    input = OpenFile();
                 }
 
-                if (new FileInfo(path).Extension == ".obj")
+                if(input == ":e")
                 {
-                    string faction = ChooseFaction();
+
+                }
+
+                if (new FileInfo(input).Extension == ".obj")
+                {
+                    string savePath = "";
+                    if (Settings.Utility.Debug)
+                    {
+                        CE.Write("[DEBUG] Debug is enabled. Saving to application folder.\n");
+                    }
+                    else
+                    {
+                        savePath = ChooseFaction();
+                    }
+
                     CE.Line();
 
 
                     timer = DateTime.Now;
-                    CE.Write($"[*] Loading {new FileInfo(path).Length} bytes...\n");
-                    MeshImporter.Import(path, faction, new FileInfo(path).Name.Replace(".obj", ""));
-                    CE.Write($"[*] Done!\n");
-
-                    if (debug)
+                    CE.Write($"[*] Loading {new FileInfo(input).Length} bytes...\n");
+                    if (MeshImporter.Import(input, savePath, new FileInfo(input).Name.Replace(".obj", "")))
                     {
-                        CE.Line();
-                        CE.Write($"[DEBUG] Finished in {(DateTime.Now - timer).TotalSeconds} seconds.\n");
+                        CE.Write($"[*] Done!\n");
+
+                        if (Settings.Utility.Debug)
+                        {
+                            CE.Line();
+                            CE.Write($"[DEBUG] Finished in {(DateTime.Now - timer).TotalSeconds} seconds.\n");
+                        }
+                    }
+                    else
+                    {
+                        CE.Alert("[!] File corrupt.");
                     }
                 }
                 else
                 {
-                    CE.Alert("File type not supported.");
+                    CE.Alert("[!] File type not supported.");
                 }
+
                 Console.ReadLine();
             }
         }
@@ -85,6 +105,7 @@ namespace SprocketToolkit
         static string OpenFile()
         {
             string path = Console.ReadLine().Replace(@"\", "/").Replace("\"", "");
+            // file
             if (File.Exists(path))
             {
                 return path;
