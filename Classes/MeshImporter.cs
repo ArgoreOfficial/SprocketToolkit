@@ -48,7 +48,7 @@ namespace SprocketToolkit
                 {
                     // Triangles
                     MakeFace(pSB, newPoints, loaded.vertices, loaded.facesVertsIndxs[i], new int[] { 0, 1, 2 });
-                    points += 6;
+                    points += 3;
                     fSB.Append($",[{points - 3},{points - 2},{points - 1}]");
                 }
                 else if (loaded.facesVertsIndxs[i].Count == 4)
