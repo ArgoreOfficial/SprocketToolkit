@@ -10,8 +10,8 @@ namespace SprocketToolkit.Classes
     {
         public static class Utility
         {
-            public static bool Debug = true;
-
+            public static bool Debug = false;
+            public static bool RetainCompartmentPosition = false;
         }
         public static class Fun
         {

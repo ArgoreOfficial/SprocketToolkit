@@ -9,21 +9,17 @@ using System;
 namespace SprocketToolkit
 {
 
-
-
     static class MeshImporter
     {
         public static bool Import(string filePath, string savePath, string saveName)
         {
-            SimpleMesh loaded;
+            Mesh loaded;
 
             // Load file
-            using (var reader = new StreamReader(filePath))
-            {
-                loaded = SimpleMesh.LoadFromObj(reader);
-            }
+            loaded = MeshLoader.LoadOBJ(filePath);
 
-            if(loaded.facesVertsIndxs.Count == 0 || loaded.vertices.Count == 0)
+            // make sure file isn't empty
+            if(loaded.Faces.Count == 0 || loaded.Vertices.Count == 0)
             {
                 return false;
             }
@@ -42,16 +38,16 @@ namespace SprocketToolkit
             int points = 0;
             List<Vector3> newPoints = new List<Vector3>(); // new list of points
 
-            for (int i = 0; i < loaded.facesVertsIndxs.Count; i++)
+            for (int i = 0; i < loaded.Faces.Count; i++)
             {
-                if (loaded.facesVertsIndxs[i].Count == 3)
+                if (loaded.Faces[i].Count == 3)
                 {
                     // Triangles
-                    MakeFace(pSB, newPoints, loaded.vertices, loaded.facesVertsIndxs[i], new int[] { 0, 1, 2 });
+                    MakeFace(pSB, newPoints, loaded.Vertices, loaded.Faces[i], new int[] { 0, 1, 2 });
                     points += 3;
                     fSB.Append($",[{points - 3},{points - 2},{points - 1}]");
                 }
-                else if (loaded.facesVertsIndxs[i].Count == 4)
+                else if (loaded.Faces[i].Count == 4)
                 {
                     // Quad
                     // from:
@@ -63,7 +59,7 @@ namespace SprocketToolkit
                     // 2 1 0
                     // 2 0 3
 
-                    MakeFace(pSB, newPoints, loaded.vertices, loaded.facesVertsIndxs[i], new int[] { 2,1,0,2,0,3 });
+                    MakeFace(pSB, newPoints, loaded.Vertices, loaded.Faces[i], new int[] { 0,1,2,2,3,0 });
                     points += 6;
                     fSB.Append($",[{points - 4},{points - 5},{points - 6},{points - 1},{points - 2},{points - 3}]");
                 }

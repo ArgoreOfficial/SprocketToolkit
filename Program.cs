@@ -7,13 +7,14 @@ namespace SprocketToolkit
 {
     class Program
     {
-        static string version = "0.1 ALPHA";
+        static string version = "0.2 ALPHA";
         static DateTime timer;
 
         /*
          *  Stuff to make 
          *  
-         * - Mesh Export
+         * - new .obj loading - MAYBE DONE
+         * 
          * - Compartment Merging
          *      Merges two compartments with vertices and faces
          *      usefull for making decorations in sprocket with turrets, then merging to make one hull
@@ -56,12 +57,10 @@ namespace SprocketToolkit
                     input = OpenFile();
                 }
 
-                if(input == ":e")
-                {
+                // get file type
 
-                }
-
-                if (new FileInfo(input).Extension == ".obj")
+                string filetype = new FileInfo(input).Extension;
+                if (filetype == ".obj")
                 {
                     string savePath = "";
                     if (Settings.Utility.Debug)
@@ -91,6 +90,19 @@ namespace SprocketToolkit
                     else
                     {
                         CE.Alert("[!] File corrupt.");
+                    }
+                }
+                else if (filetype == ".blueprint")
+                {
+                    CE.Write("OK! Choose Option\n", ConsoleColor.Yellow);
+                    CE.Line();
+                    CE.Write("[0] Export Model\n", ConsoleColor.Green);
+                    CE.Line();
+
+                    if (Option(1) == 0)
+                    {
+                        CE.Line();
+                        BlueprintExporter.Export(input, "", new FileInfo(input).Name.Replace(".blueprint", ""));
                     }
                 }
                 else
