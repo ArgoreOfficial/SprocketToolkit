@@ -7,7 +7,7 @@ namespace SprocketToolkit
 {
     class Program
     {
-        static string version = "0.2 ALPHA";
+        static string version = "0.0.2 ALPHA";
         static DateTime timer;
 
         /*
@@ -97,13 +97,22 @@ namespace SprocketToolkit
                     CE.Write("OK! Choose Option\n", ConsoleColor.Yellow);
                     CE.Line();
                     CE.Write("[0] Export Model\n", ConsoleColor.Green);
+                    CE.Write("[1] Merge all compartments\n", ConsoleColor.Green);
                     CE.Line();
 
-                    if (Option(1) == 0)
+                    int option = Option(2);
+
+                    if (option == 0)
                     {
                         CE.Line();
                         BlueprintExporter.Export(input, "", new FileInfo(input).Name.Replace(".blueprint", ""));
                     }
+                    else if(option == 1)
+                    {
+                        CE.Line();
+                        CompartmentMerger.MergeAll(input);
+                    }
+                    
                 }
                 else
                 {

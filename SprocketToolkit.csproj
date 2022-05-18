@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Classes\BlueprintExporter.cs" />
     <Compile Include="Classes\CE.cs" />
+    <Compile Include="Classes\CompartmentMerger.cs" />
     <Compile Include="Classes\JsonRoots.cs" />
     <Compile Include="Classes\MeshImporter.cs" />
     <Compile Include="Classes\Settings.cs" />

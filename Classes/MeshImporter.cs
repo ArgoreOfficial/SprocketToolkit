@@ -1,12 +1,11 @@
-﻿using OBJ3DWavefrontLoader;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Numerics;
 using SprocketToolkit.Classes;
 using System;
 
-namespace SprocketToolkit
+namespace SprocketToolkit.Classes
 {
 
     static class MeshImporter
