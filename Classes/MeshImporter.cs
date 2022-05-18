@@ -173,14 +173,15 @@ namespace SprocketToolkit
             
             for (int i = 0; i < IndexOrder.Length; i++)
             {
-                Vector3 newVert = LoadedVerts[FaceIndex[IndexOrder[i]] - 1];
-
+                Vector3 newVert = LoadedVerts[FaceIndex[IndexOrder[i]] - 1] * new Vector3(-1,1,1);
+                //Console.WriteLine($"{newVert.X} -> {newVert.X * -1}");
+                
                 if(Settings.Fun.Ballify)
                 {
                     newVert = Vector3.Normalize(newVert); // turns mesh into a ball
                 }
 
-                VertexSB.Append("," + PtoString(LoadedVerts[FaceIndex[IndexOrder[i]] - 1]));
+                VertexSB.Append("," + PtoString(newVert));  
                 NewVerts.Add(newVert);
             }
         }
