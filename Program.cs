@@ -37,6 +37,7 @@ namespace SprocketToolkit
 
         static void Main(string[] args)
         {
+            
             Setup();
             bool run = true;
             while (run)
@@ -121,6 +122,7 @@ namespace SprocketToolkit
 
                 Console.ReadLine();
             }
+            
         }
 
         static string OpenFile()

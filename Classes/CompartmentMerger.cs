@@ -60,11 +60,20 @@ namespace SprocketToolkit.Classes
 
             for (int i = 0; i < compartments.Count; i++)
             {
+
+                // add rotation
                 for (int p = 0; p < compartments[i].compartment.points.Count; p+=3)
                 {
-                    throw (new Exception("ADD ROTATION"));
+                    double radX = compartments[i].rot[0] * Math.PI / 180.0;
+                    double radY = compartments[i].rot[1] * Math.PI / 180.0;
+                    double radZ = compartments[i].rot[2] * Math.PI / 180.0;
+
+                    compartments[i].compartment.points[p] *= radX;
+                    compartments[i].compartment.points[p + 1] *= radY;
+                    compartments[i].compartment.points[p + 2] *= radZ;
                 }
 
+                // add offset
                 posOffsets.Add(new Vector3());
                 if (compartments[i].parentID != -1)
                 {
@@ -121,7 +130,7 @@ namespace SprocketToolkit.Classes
 
             CompartmentBaseRoot jsonFile = new CompartmentBaseRoot("Compartment", JsonConvert.SerializeObject(newCompartment), "");
 
-            File.WriteAllText("TEST.txt", JsonConvert.SerializeObject(jsonFile));
+            File.WriteAllText("TEST.blueprint", JsonConvert.SerializeObject(jsonFile));
         }
     }
 }
