@@ -61,7 +61,7 @@ namespace SprocketToolkit.Classes
             for (int i = 0; i < compartments.Count; i++)
             {
 
-                // add rotation
+                /*// add rotation
                 for (int p = 0; p < compartments[i].compartment.points.Count; p+=3)
                 {
                     double radX = compartments[i].rot[0] * Math.PI / 180.0;
@@ -71,13 +71,13 @@ namespace SprocketToolkit.Classes
                     compartments[i].compartment.points[p] *= radX;
                     compartments[i].compartment.points[p + 1] *= radY;
                     compartments[i].compartment.points[p + 2] *= radZ;
-                }
+                }*/
 
                 // add offset
                 posOffsets.Add(new Vector3());
                 if (compartments[i].parentID != -1)
                 {
-                    for (int o = compartments[i].parentID; o >= 0; o++)
+                    for (int o = compartments[i].parentID; o >= 0; o--)
                     {
                         posOffsets[i] += new Vector3(
                             (float)compartments[o].pos[0],
@@ -87,8 +87,19 @@ namespace SprocketToolkit.Classes
                     }
                 }
 
-                // add vertices and thicknessmap
+
+
+                // thicknessmap
                 newCompartment.compartment.points.AddRange(compartments[i].compartment.points);
+
+                // add vertices
+                for (int p = 0; p < compartments[i].compartment.points.Count; p+=3)
+                {
+                    newCompartment.compartment.points.Add(compartments[i].compartment.points[p] + (double)posOffsets[i].X);
+                    newCompartment.compartment.points.Add(compartments[i].compartment.points[p + 1] + (double)posOffsets[i].Y);
+                    newCompartment.compartment.points.Add(compartments[i].compartment.points[p + 2] + (double)posOffsets[i].Z);
+                }
+
                 newCompartment.compartment.thicknessMap.AddRange(compartments[i].compartment.thicknessMap);
 
                 if (i == 0)
@@ -130,7 +141,7 @@ namespace SprocketToolkit.Classes
 
             CompartmentBaseRoot jsonFile = new CompartmentBaseRoot("Compartment", JsonConvert.SerializeObject(newCompartment), "");
 
-            File.WriteAllText("TEST.blueprint", JsonConvert.SerializeObject(jsonFile));
+            File.WriteAllText("TEST2.blueprint", JsonConvert.SerializeObject(jsonFile));
         }
     }
 }

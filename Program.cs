@@ -33,6 +33,7 @@ namespace SprocketToolkit
         static void Setup()
         {
             Console.Title = $"The Sprocket Toolkit - {version}";
+            ResourceHandler.Load();
         }
 
         static void Main(string[] args)
@@ -75,10 +76,9 @@ namespace SprocketToolkit
 
                     CE.Line();
 
-
                     timer = DateTime.Now;
                     CE.Write($"[*] Loading {new FileInfo(input).Length} bytes...\n");
-                    if (MeshImporter.Import(input, savePath, new FileInfo(input).Name.Replace(".obj", "")))
+                    if (MeshImporter.ImportJson(input, savePath, new FileInfo(input).Name.Replace(".obj", "")))
                     {
                         CE.Write($"[*] Done!\n");
 
@@ -93,22 +93,24 @@ namespace SprocketToolkit
                         CE.Alert("[!] File corrupt.");
                     }
                 }
-                else if (filetype == ".blueprint")
+                else if (filetype == ".blueprint") // blueprint file
                 {
+                    //text
                     CE.Write("OK! Choose Option\n", ConsoleColor.Yellow);
                     CE.Line();
                     CE.Write("[0] Export Model\n", ConsoleColor.Green);
-                    CE.Write("[1] Merge all compartments\n", ConsoleColor.Green);
+                    CE.Write("[1] Merge all compartments (not finished yet)\n", ConsoleColor.DarkGreen);
                     CE.Line();
 
+                    // option
                     int option = Option(2);
 
-                    if (option == 0)
+                    if (option == 0) // export to model
                     {
                         CE.Line();
                         BlueprintExporter.Export(input, "", new FileInfo(input).Name.Replace(".blueprint", ""));
                     }
-                    else if(option == 1)
+                    else if(option == 1) // merge into one hull
                     {
                         CE.Line();
                         CompartmentMerger.MergeAll(input);
