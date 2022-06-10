@@ -1,9 +1,10 @@
 # SprocketToolkit
 A collection of tools for the game Sprocket
 
-**This program is in ALPHA. This means that bugs may occur.**
+## Latest release can be found [here](https://github.com/ArgoreOfficial/SprocketToolkit/releases/latest)
 
-Latest release is [here](https://github.com/ArgoreOfficial/SprocketToolkit/releases/latest)
+
+**This program is in ALPHA. This means that bugs may occur.**
 
 **For exporting, use [SprocketMeshConverter](https://github.com/ArgoreOfficial/SprocketMeshConverter)**
 
