@@ -1,7 +1,7 @@
+# Download [HERE](https://github.com/ArgoreOfficial/SprocketToolkit/releases/latest)
+<sub>The executable is not in the source code. Stop downloading the source</sub>
 # SprocketToolkit
 A collection of tools for the game Sprocket
-
-## Latest release can be found [here](https://github.com/ArgoreOfficial/SprocketToolkit/releases/latest)
 
 
 **This program is in ALPHA. This means that bugs may occur.**
